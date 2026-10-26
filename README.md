@@ -17,7 +17,7 @@ templates/CHECKLIST.md         단계별 체크리스트
 
 ## 사용
 ```bash
-git clone https://github.com/<user>/fde-harness.git kit
+git clone https://github.com/hugh-ji/fde-harness.git kit
 cp kit/AGENTS.md . && cp -r kit/.agents . && cp kit/templates/*.md .
 rm -rf kit
 ```

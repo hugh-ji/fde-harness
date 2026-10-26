@@ -1,6 +1,6 @@
 # PLAN.md
 
-> 작업 체계 템플릿은 본인 공개 저장소에서 clone: <URL>
+> 작업 체계 템플릿은 본인 공개 저장소에서 clone: https://github.com/hugh-ji/fde-harness
 
 ## 제출 요건 (README·과제 안내에서 그대로 복사)
 - 필수 파일/경로:
