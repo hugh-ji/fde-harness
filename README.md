@@ -5,11 +5,12 @@
 ## 구성
 ```
 AGENTS.md                      에이전트 작업 규칙(자동 로드)
+PROMPTS.md                     단계별 프롬프트 36개(P 번호)
 templates/AGREEMENT.md         실무자 합의문 양식
 templates/PLAN.md              마일스톤 계획 양식
 templates/DECISIONS.md         결정 로그 양식
 templates/HANDOFF.md           인수인계 양식
-templates/CHECKLIST.md         단계별 체크리스트
+templates/CHECKLIST.md         180분 타임라인·판단 기준
 .agents/skills/fde-interview   실무자 인터뷰 스킬
 .agents/skills/verify-before-done  완료 전 검증 스킬
 .agents/skills/handoff         인수인계 문서 스킬
