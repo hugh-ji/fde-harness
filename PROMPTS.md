@@ -30,13 +30,13 @@ README와 docs/ 전체, data/ 각 파일의 첫 5줄을 읽고 정리해줘.
 **P3 · Codex**
 
 ```text
-작업 체계 세팅부터 할게. 공개 저장소 〈URL〉을 clone해서 README 제출물 조건에 필요한 파일만 골라 세팅해줘. 어떤 파일을 왜 가져올지 먼저 보여주고 내가 확인하면 진행해. README.md, docs/, data/는 수정 금지. 끝나면 git init 후 '세팅'으로 커밋하고, 가져온 템플릿 규칙이 이 시험의 제출 규칙과 어긋나는 부분이 있으면 알려줘.
+작업 체계 세팅부터 할게. 공개 저장소 〈URL〉을 git clone 해서 AGENTS.md, PROMPTS.md, templates/ 전부를 작업 폴더로 복사하고 clone 폴더는 지워. API로 파일 목록을 읽는 식으로 돌아가지 말고 clone 한 번으로 끝내. README.md, docs/, data/는 수정 금지. 끝나면 git init 후 '세팅'으로 커밋하고, 가져온 규칙이 이 시험의 README 제출 규칙과 어긋나는 부분이 있으면 알려줘.
 ```
 
 **P4 · Codex**
 
 ```text
-AGREEMENT.md도 가져와. 그대로 진행해.
+그대로 진행해. 템플릿의 빈 칸은 채우지 말고 그대로 둬. 내가 단계마다 채운다.
 ```
 
 ### 인터뷰 — 15~40
