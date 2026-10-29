@@ -6,6 +6,7 @@
 ```
 AGENTS.md                      에이전트 작업 규칙(자동 로드)
 PROMPTS.md                     단계별 프롬프트 36개(P 번호)
+setup.sh                       세팅 스크립트(복사·git init·커밋)
 templates/AGREEMENT.md         실무자 합의문 양식
 templates/PLAN.md              마일스톤 계획 양식
 templates/DECISIONS.md         결정 로그 양식
@@ -17,8 +18,9 @@ templates/CHECKLIST.md         180분 타임라인·판단 기준
 ```
 
 ## 사용
+작업 폴더에서 한 줄. Codex에게 "이 저장소를 clone하고 setup.sh를 실행해"라고 시켜도 된다.
 ```bash
-git clone https://github.com/hugh-ji/fde-harness.git kit
-cp kit/AGENTS.md . && cp -r kit/.agents . && cp kit/templates/*.md .
-rm -rf kit
+git clone https://github.com/hugh-ji/fde-harness.git && sh fde-harness/setup.sh
 ```
+setup.sh가 하는 일: AGENTS.md·PROMPTS.md·templates/*.md·.agents/를 작업 폴더로 복사 → clone 폴더 삭제 → .gitignore → git init → '세팅' 커밋. 작업 폴더의 README.md, docs/, data/는 건드리지 않는다.
+그 다음 **Codex를 다시 실행**한다. AGENTS.md는 Codex가 시작할 때 읽는다.
