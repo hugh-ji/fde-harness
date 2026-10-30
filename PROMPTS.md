@@ -38,8 +38,17 @@ https://github.com/hugh-ji/fde-harness 를 clone하고 그 안의 setup.sh를 �
 Codex를 종료(Ctrl+C 두 번)하고 codex를 다시 실행한다. AGENTS.md는 시작할 때만 읽힌다. 그 다음 아래를 보낸다.
 
 ```text
-AGENTS.md 읽었지? 규칙을 3줄로 요약하고, 이 시험 README의 제출 규칙과 어긋나는 부분이 있으면 알려줘. 과제 README·docs·data가 한 단계 위(../)에 있으면: 제출물(src/, tests/, 문서)은 이 폴더에 만들고, 데이터는 ../data 상대경로로 읽되 경로는 상수 하나에 모아. 상위 폴더에는 아무것도 쓰지 마. 템플릿의 빈 칸은 채우지 마. 내가 단계마다 채운다.
+AGENTS.md 읽었지? 규칙을 3줄로 요약해. 그 다음 하네스의 가정과 이 환경이 맞는지 점검해서 어긋나는 것만 표로 보여줘(항목 / 하네스 가정 / 실제 / 제안). 파일은 아무것도 고치지 마. 고칠지는 내가 정한다.
+① 제출물: README 제출물 절의 필수 파일·폴더 이름과, 템플릿(PLAN·DECISIONS·HANDOFF·SCREEN_CHECK·AGREEMENT)·CHECKLIST가 전제한 이름이 같은가. README에만 있는 제출물, 템플릿에만 있는 파일.
+② 폴더: README·docs·data가 어디 있나(이 폴더인가 ../인가). 쓰기 가능한 폴더는 어디인가. git은 어디에 있나(이 폴더인가 상위인가).
+③ 런타임: python3 버전, pandas·pytest 유무, 없으면 pip 설치 가능한가, git 가능한가.
+④ 실행 조건: README가 요구하는 host·포트·실행 명령이 AGENTS의 0.0.0.0 규칙과 맞는가.
+⑤ 데이터: data/ 파일 이름·형식(csv/json)과 첫 줄. 템플릿이나 CHECKLIST가 다른 형식을 전제했으면 표시.
+⑥ AGENTS 규칙 중 이 과제에서 지킬 수 없거나 의미 없는 것.
+어긋나는 게 없으면 "가정 일치"라고만 해. 표 뒤에 "데이터 경로 상수 하나 / 상위 폴더에 쓰기 금지 / 템플릿 빈 칸은 내가 채움"을 확인했다고 한 줄.
 ```
+
+표를 보고 고칠 것이 있으면 한 문장으로 지시한다. 예: "SCREEN_CHECK.md 대신 README가 요구하는 이름으로 템플릿 파일명을 바꿔." / "pandas 없으니 표준 라이브러리만 쓰고 테스트는 unittest로." 고치고 나서 `git add -A && git commit -m "가정 점검"`은 Codex에게 P9처럼 시킨다.
 
 ### 인터뷰 — 15~40
 
