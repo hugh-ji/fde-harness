@@ -8,9 +8,10 @@ KIT="$(cd "$(dirname "$0")" && pwd)"
 WS="$(dirname "$KIT")"
 cd "$WS"
 
-if [ ! -f README.md ]; then
-  echo "주의: 이 폴더($WS)에 README.md가 없다. 과제 README가 있는 폴더가 제출 기준이면 거기서 다시 clone해야 한다."
-  [ -f ../README.md ] && echo "  README.md는 한 단계 위($(cd .. && pwd))에 있다. 그 폴더가 제출 기준이면: cd .. 후 Codex를 다시 띄우고 P3를 다시 보낸다."
+if [ ! -f README.md ] && [ -f ../README.md ]; then
+  echo "참고: 과제 README.md는 한 단계 위($(cd .. && pwd))에 있고 제출 폴더는 여기($WS)다. Codex에게 P4로 경로를 알려준다(../README.md, ../data)."
+elif [ ! -f README.md ]; then
+  echo "주의: 이 폴더($WS)에도 한 단계 위에도 README.md가 없다. 과제 폴더가 맞는지 확인한다."
 fi
 
 cp "$KIT/AGENTS.md" "$KIT/PROMPTS.md" .
@@ -21,7 +22,7 @@ rm -rf "$KIT"
 if [ ! -f .gitignore ]; then
   printf '__pycache__/\n.pytest_cache/\n*.pyc\n.DS_Store\n' > .gitignore
 fi
-[ -d .git ] || git init -q
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 || git init -q
 git add -A
 git -c user.name=fde -c user.email=fde@example.com commit -q -m "세팅" || true
 
