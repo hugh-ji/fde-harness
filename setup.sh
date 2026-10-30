@@ -1,13 +1,18 @@
 #!/bin/sh
-# Read this script before use. Pass an existing, officially allowed workspace.
+# Read this script before use. With no argument, install into the clone's parent.
+# An explicit existing workspace path remains supported as the first argument.
 # No overwrite, source deletion, git staging, commits, or network operations.
 set -eu
 fail() { printf '%s\n' "$*" >&2; exit 1; }
-[ "$#" -eq 1 ] || fail "Usage: sh setup.sh /absolute/path/to/allowed-workspace"
-[ -d "$1" ] || fail "Target must be an existing directory: $1"
-[ ! -L "$1" ] || fail "Target must not be a symbolic link."
 KIT=$(CDPATH= cd -P -- "$(dirname -- "$0")" && pwd)
-WS=$(CDPATH= cd -P -- "$1" && pwd)
+case "$#" in
+    0) TARGET=$(dirname -- "$KIT") ;;
+    1) TARGET=$1 ;;
+    *) fail "Usage: sh setup.sh [existing-workspace]" ;;
+esac
+[ -d "$TARGET" ] || fail "Target must be an existing directory: $TARGET"
+[ ! -L "$TARGET" ] || fail "Target must not be a symbolic link."
+WS=$(CDPATH= cd -P -- "$TARGET" && pwd)
 case "$WS/" in "$KIT/"*) fail "Target must be outside the source checkout." ;; esac
 [ -w "$WS" ] || fail "Target is not writable: $WS"
 command -v git >/dev/null 2>&1 || fail "Git is required to record the source commit."

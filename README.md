@@ -22,24 +22,33 @@
 - `PROMPTS.md`: 13단계 진행 가이드
 - `templates/`: AGREEMENT·PLAN·DECISIONS·HANDOFF·SCREEN_CHECK·CHECKLIST 양식
 - `.agents/skills/`: 인터뷰·검증·인수인계 Skill
-- `setup.sh`: 기존 파일을 덮어쓰지 않는 명시적 경로 설치
+- `setup.sh`: 기존 파일을 덮어쓰지 않는 설치. 인수가 없으면 clone 폴더의 부모를 대상으로 사용
 - `tests/test_setup.py`: 설치 보존·충돌·출처 기록 검사
 
 파일명과 시간 배분은 개인 예시입니다. 필수 제출물·경로·기술 스택은 실제 과제 안내에서 확인합니다.
 
 ## 가져오기와 설치
 
-시험 중에는 플랫폼 안의 AI에 허용된 공개 저장소를 가져오도록 요청합니다. 아래 명령의 대상 경로는 공식 안내로 확인한 실제 작업 폴더로 바꿉니다. 개인 PC 파일을 업로드하지 않습니다.
+시험 중에는 플랫폼 안의 AI에 다음처럼 짧게 요청할 수 있습니다.
+
+> https://github.com/hugh-ji/fde-harness clone 후 setup.sh 실행해줘
+
+Codex가 현재 과제 작업 폴더에서 저장소를 clone한 뒤 인수 없이 실행하면, `setup.sh`는 clone 폴더의 부모를 설치 대상으로 사용합니다. 기존 파일과 충돌하면 덮어쓰지 않고 설치 전에 멈춥니다. 개인 PC 파일을 업로드하지 않습니다.
 
 ```sh
 git clone https://github.com/hugh-ji/fde-harness.git
-# 먼저 스크립트와 가져올 파일을 읽고 규정·기존 파일과의 충돌을 확인합니다.
+sh fde-harness/setup.sh
+```
+
+clone 폴더의 부모가 실제 작업 폴더가 아닌 환경에서는 대상 경로를 명시할 수도 있습니다.
+
+```sh
 sh fde-harness/setup.sh /absolute/path/to/allowed-workspace
 ```
 
 원하는 공개 버전을 고정하려면 clone 폴더에서 검토한 커밋을 checkout한 뒤 설치합니다. 특정 SHA는 직접 확인한 값을 사용하세요.
 
-설치기는 변경 없는 Git checkout을 요구하고, 대상 경로와 전체 복사 목록을 사전 검사합니다. 기존 파일이나 심볼릭 링크와 충돌하면 복사를 시작하지 않습니다. 공식 AGENTS나 동명 문서가 있으면 삭제해서 통과시키지 말고, 원본 폴더를 참조하거나 공식 지침을 보존하며 필요한 내용만 수동으로 반영합니다. 충돌하지 않는 기존 `.agents` 디렉터리에는 새 Skill만 추가할 수 있습니다.
+설치기는 변경 없는 Git checkout을 요구하고, 자동 선택 또는 명시한 대상 경로와 전체 복사 목록을 사전 검사합니다. 기존 파일이나 심볼릭 링크와 충돌하면 복사를 시작하지 않습니다. 공식 AGENTS나 동명 문서가 있으면 삭제해서 통과시키지 말고, 원본 폴더를 참조하거나 공식 지침을 보존하며 필요한 내용만 수동으로 반영합니다. 충돌하지 않는 기존 `.agents` 디렉터리에는 새 Skill만 추가할 수 있습니다.
 
 설치기는 원본 clone·기존 파일·Git index·작성자 설정을 보존하고 git init/add/commit을 실행하지 않습니다. `HARNESS_SOURCE.md`에 출처 URL·SHA·설치 시각·복사 목록을 기록합니다. 이 파일은 작업 환경 내부에 둡니다. 디스크 오류 등 복사 중 실패가 발생하면 부분 설치가 남을 수 있으므로 결과와 파일 상태를 확인하세요.
 

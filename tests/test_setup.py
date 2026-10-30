@@ -55,6 +55,16 @@ class InstallerTests(unittest.TestCase):
         self.assertIn('https://github.com/hugh-ji/fde-harness', text)
         self.assertEqual((self.ws / 'PLAN.md').read_bytes(), (self.source / 'templates/PLAN.md').read_bytes())
 
+    def test_short_command_installs_into_clone_parent(self):
+        before = self.snapshot(self.source)
+        result = self.install(no_target=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(before, self.snapshot(self.source))
+        self.assertTrue((self.base / 'AGENTS.md').is_file())
+        source_record = (self.base / 'HARNESS_SOURCE.md').read_text()
+        self.assertIn(self.git(self.source, 'rev-parse', 'HEAD').strip(), source_record)
+        self.assertIn(str(self.base), result.stdout)
+
     def test_existing_official_instructions_and_documents_are_preserved(self):
         for path in ['AGENTS.md', 'PLAN.md', 'HANDOFF.md', 'HARNESS_SOURCE.md']:
             with self.subTest(path=path):
@@ -115,9 +125,18 @@ class InstallerTests(unittest.TestCase):
         (self.ws / 'PLAN.md').write_text('completed work')
         self.assert_unchanged_failure()
 
-    def test_target_is_required_and_must_exist(self):
-        self.assertNotEqual(self.install(no_target=True).returncode, 0)
+    def test_explicit_target_must_exist(self):
         self.assert_unchanged_failure(self.base / 'not-created')
+
+    def test_more_than_one_target_is_rejected(self):
+        result = subprocess.run(
+            ['sh', str(self.source / 'setup.sh'), str(self.ws), str(self.base)],
+            capture_output=True,
+            text=True,
+            env=self.env,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse((self.ws / 'AGENTS.md').exists())
 
     def test_source_or_its_descendant_cannot_be_target(self):
         before = self.snapshot(self.source)
