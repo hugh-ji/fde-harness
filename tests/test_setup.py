@@ -54,7 +54,6 @@ class InstallerTests(unittest.TestCase):
         self.assertIn(self.git(self.source, 'rev-parse', 'HEAD').strip(), text)
         self.assertIn('https://github.com/hugh-ji/fde-harness', text)
         self.assertEqual((self.ws / 'PLAN.md').read_bytes(), (self.source / 'templates/PLAN.md').read_bytes())
-        self.assertEqual((self.ws / 'VIBE_PROMPTS.md').read_bytes(), (self.source / 'VIBE_PROMPTS.md').read_bytes())
 
     def test_short_command_installs_into_clone_parent(self):
         before = self.snapshot(self.source)
@@ -67,7 +66,7 @@ class InstallerTests(unittest.TestCase):
         self.assertIn(str(self.base), result.stdout)
 
     def test_existing_official_instructions_and_documents_are_preserved(self):
-        for path in ['AGENTS.md', 'VIBE_PROMPTS.md', 'PLAN.md', 'HANDOFF.md', 'HARNESS_SOURCE.md']:
+        for path in ['AGENTS.md', 'PLAN.md', 'HANDOFF.md', 'HARNESS_SOURCE.md']:
             with self.subTest(path=path):
                 p = self.ws / path
                 p.write_text('KEEP ORIGINAL')

@@ -20,7 +20,6 @@
 
 - `AGENTS.md`: 규정 우선순위·역할·구현·검증·기록 규칙
 - `PROMPTS.md`: 13단계 진행 가이드
-- `VIBE_PROMPTS.md`: 터미널을 직접 다루지 않는 응시자를 위한 단계별 복사·붙여넣기 프롬프트
 - `templates/`: AGREEMENT·PLAN·DECISIONS·HANDOFF·SCREEN_CHECK·CHECKLIST 양식
 - `.agents/skills/`: 인터뷰·검증·인수인계 Skill
 - `setup.sh`: 기존 파일을 덮어쓰지 않는 설치. 인수가 없으면 clone 폴더의 부모를 대상으로 사용
@@ -35,8 +34,6 @@
 > https://github.com/hugh-ji/fde-harness clone 후 setup.sh 실행해줘
 
 Codex가 현재 과제 작업 폴더에서 저장소를 clone한 뒤 인수 없이 실행하면, `setup.sh`는 clone 폴더의 부모를 설치 대상으로 사용합니다. 기존 파일과 충돌하면 덮어쓰지 않고 설치 전에 멈춥니다. 개인 PC 파일을 업로드하지 않습니다.
-
-설치 후에는 `VIBE_PROMPTS.md`의 1번부터 사용합니다. 긴 문서를 찾을 시간이 없으면 파일 맨 아래의 네 문장 운용법을 사용합니다. 이 프롬프트들은 실제 과제 자료를 근거로 Codex가 작업하도록 하는 절차이며 예상 답안은 포함하지 않습니다.
 
 ```sh
 git clone https://github.com/hugh-ji/fde-harness.git
