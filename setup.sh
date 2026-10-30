@@ -24,6 +24,7 @@ SHA=$(git -C "$KIT" rev-parse --verify HEAD)
 # Explicit allowlist: no glob copies of future files or arbitrary source data.
 FILES='AGENTS.md
 PROMPTS.md
+VIBE_PROMPTS.md
 templates/AGREEMENT.md
 templates/PLAN.md
 templates/DECISIONS.md
