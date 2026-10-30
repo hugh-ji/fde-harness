@@ -27,5 +27,5 @@ git add -A
 git -c user.name=fde -c user.email=fde@example.com commit -q -m "세팅" || true
 
 echo "세팅 완료. 작업 폴더에 들어온 파일:"
-echo "  AGENTS.md PROMPTS.md CHECKLIST.md AGREEMENT.md PLAN.md DECISIONS.md HANDOFF.md .agents/ .gitignore"
+echo "  AGENTS.md PROMPTS.md CHECKLIST.md AGREEMENT.md PLAN.md DECISIONS.md HANDOFF.md SCREEN_CHECK.md .agents/ .gitignore"
 echo "다음: Codex를 종료하고 다시 실행한다. AGENTS.md는 Codex가 시작할 때 읽는다."

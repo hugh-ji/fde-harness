@@ -35,7 +35,7 @@ https://github.com/hugh-ji/fde-harness 를 clone하고 그 안의 setup.sh를 �
 
 **P4 · 나 → Codex**
 
-Codex를 종료(Ctrl+C 두 번)하고 codex를 다시 실행한다. AGENTS.md는 시작할 때만 읽힌다. 그 다음 아래를 보낸다.
+Codex를 종료(Ctrl+C 두 번)하고 codex를 다시 실행한다. AGENTS.md는 시작할 때만 읽힌다. 그 다음 아래를 보낸다. **재시작 뒤부터는 Codex에 `P4`처럼 번호만 보내도 된다**(AGENTS.md 규칙). 아래 전문은 Codex가 PROMPTS.md에서 읽는다.
 
 ```text
 AGENTS.md 읽었지? 규칙을 3줄로 요약해. 그 다음 하네스의 가정과 이 환경이 맞는지 점검해서 어긋나는 것만 표로 보여줘(항목 / 하네스 가정 / 실제 / 제안). 파일은 아무것도 고치지 마. 고칠지는 내가 정한다.
