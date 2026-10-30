@@ -5,7 +5,7 @@ Codex에 "지금 〈N〉분"이라고 알려주면 이 표에서 단계를 찾�
 | 경과 | 단계 | 할 일 | 산출 | 커밋 | P |
 |---|---|---|---|---|---|
 | 0~15 | 읽기 | Helper 질문 2개 → README → 사전 → 코드표 → 절차 → 메일 → 채팅 → 보안 공지. CSV는 첫 줄만. Codex 요약 병렬 | 없음 | | 1~2 |
-| ~8 (병렬) | 세팅 | Codex에 clone+setup.sh 실행 지시 → Codex 재시작 → AGENTS 요약 확인 | AGENTS, PROMPTS, templates | 세팅 | 3~4 |
+| ~8 (병렬) | 세팅 | 제출 기준 폴더에서(터미널 pwd 확인, 다르면 cd) Codex 실행 → clone+setup.sh 실행 지시 → Codex 재시작 → AGENTS 요약 확인 | AGENTS, PROMPTS, templates | 세팅 | 3~4 |
 | 15~40 | 인터뷰 | 문서부터 요청(양식·절차 / 메일·감사 원문·보안 공지) → 현장형 15분(질문 3개 이내) → 분석가 10분(6개까지). 질문 보내놓고 Codex 정리 | notes/interview_*.md, notes/문서 | 인터뷰 메모 | 5~9 |
 | 40~47 | 제안 | 안 3개 + 공통 코어. 코드 금지 | 없음 | | 10 |
 | 47~50 | 합의문 | AGREEMENT(P0 4개 이하, 한 페이지) → 사람별 확인 1회 → 원문 반영. 확인 뒤 추가 요청은 P2 기록만 | AGREEMENT.md | 합의문 | 11~13 |

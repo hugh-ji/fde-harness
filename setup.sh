@@ -8,6 +8,11 @@ KIT="$(cd "$(dirname "$0")" && pwd)"
 WS="$(dirname "$KIT")"
 cd "$WS"
 
+if [ ! -f README.md ]; then
+  echo "주의: 이 폴더($WS)에 README.md가 없다. 과제 README가 있는 폴더가 제출 기준이면 거기서 다시 clone해야 한다."
+  [ -f ../README.md ] && echo "  README.md는 한 단계 위($(cd .. && pwd))에 있다. 그 폴더가 제출 기준이면: cd .. 후 Codex를 다시 띄우고 P3를 다시 보낸다."
+fi
+
 cp "$KIT/AGENTS.md" "$KIT/PROMPTS.md" .
 cp "$KIT"/templates/*.md .
 [ -d "$KIT/.agents" ] && cp -R "$KIT/.agents" .
