@@ -1,27 +1,57 @@
 # fde-harness — AI 협업 작업 체계 템플릿
 
-실무자 문제를 AI 코딩 에이전트(Codex 등)와 함께 해결할 때 쓰는 **절차 템플릿**입니다. 평소 작업 방식(문제 정의 → 인터뷰 → 합의 → 계획 → 구현·검증 → 인수인계)을 시간 제한 안에서 빠뜨리지 않게 돕는 도우미이지, 정답 모음이 아닙니다. 과제별 코드는 포함하지 않습니다.
+개인 연습과 AI의 제안을 바탕으로 작성한 범용 작업 절차와 빈 문서 양식입니다. 문제 정의 → 인터뷰 → 범위 확인 → 계획 → 구현·검증 → 인수인계를 돕습니다. 실제 시험의 문제·데이터·풀이 코드·완성 제출물을 포함하지 않습니다.
+
+이 저장소는 공식 채점표나 시험 안내가 아닙니다. 이전 버전의 채점축·점수·담당자 행동·이벤트 시각에 관한 단정은 개인 연습 및 AI 추정이었으며, 공식 근거로 사용하면 안 됩니다. 공개 저장소라는 사실만으로 모든 시험에서 사용이 승인되는 것은 아닙니다. 시험 규정과 과제 지침을 먼저 확인하세요.
+
+## 사용 경계
+
+- 공식 규정·운영자 안내·제공 과제 지침을 이 하네스보다 우선합니다.
+- 시험에서는 제공된 Codex와 공식 허용 모델만 사용합니다. Astra·Claude Code·별도 AI 연결·개인 API 키·개인 유료 구독은 사용하지 않습니다.
+- 문제·파일·대화·코드·결과물을 외부에 전송·공유하거나 Git Push하지 않습니다. 공개 MCP·Plugin에도 같은 제한이 적용됩니다.
+- 공개 자료는 플랫폼 안의 AI와 허용된 경로로 가져옵니다. 개인 PC 파일·비공개 Skill 반입이나 차단 우회를 하지 않습니다.
+- Computer Use 및 브라우저·마우스·키보드 자동 조작을 사용하지 않습니다. 화면 확인은 응시자가 플랫폼 내 미리보기에서 직접 수행합니다.
+- 감독·보안 설정과 연결 프로세스는 변경하거나 종료하지 않습니다. 오류·차단은 공식 신고 절차를 따릅니다.
+- 후속 서술형은 본인이 직접 답합니다. 보수적 운영 원칙으로 제출물 확정부터 후속 서술형 종료까지 AI를 사용하지 않습니다.
+
+이 경계는 프롬프트 지침이며 기술적 차단 장치가 아닙니다. 실제 사용하는 도구와 명령도 동일한 제한을 지켜야 합니다.
 
 ## 구성
-```
-AGENTS.md                      에이전트 작업 규칙(자동 로드)
-PROMPTS.md                     13단계 진행 가이드(왜·시킬 것의 요지·산출·커밋)
-setup.sh                       세팅 스크립트(복사·git init·커밋)
-templates/AGREEMENT.md         실무자 합의문 양식
-templates/PLAN.md              마일스톤 계획 양식
-templates/DECISIONS.md         결정 로그 양식
-templates/HANDOFF.md           인수인계 양식
-templates/SCREEN_CHECK.md      화면 확인 기록 양식(시나리오 3개)
-templates/CHECKLIST.md         13단계 타임라인·판단 기준
-.agents/skills/fde-interview   실무자 인터뷰 스킬
-.agents/skills/verify-before-done  완료 전 검증 스킬
-.agents/skills/handoff         인수인계 문서 스킬
+
+- `AGENTS.md`: 규정 우선순위·역할·구현·검증·기록 규칙
+- `PROMPTS.md`: 13단계 진행 가이드
+- `templates/`: AGREEMENT·PLAN·DECISIONS·HANDOFF·SCREEN_CHECK·CHECKLIST 양식
+- `.agents/skills/`: 인터뷰·검증·인수인계 Skill
+- `setup.sh`: 기존 파일을 덮어쓰지 않는 명시적 경로 설치
+- `tests/test_setup.py`: 설치 보존·충돌·출처 기록 검사
+
+파일명과 시간 배분은 개인 예시입니다. 필수 제출물·경로·기술 스택은 실제 과제 안내에서 확인합니다.
+
+## 가져오기와 설치
+
+시험 중에는 플랫폼 안의 AI에 허용된 공개 저장소를 가져오도록 요청합니다. 아래 명령의 대상 경로는 공식 안내로 확인한 실제 작업 폴더로 바꿉니다. 개인 PC 파일을 업로드하지 않습니다.
+
+```sh
+git clone https://github.com/hugh-ji/fde-harness.git
+# 먼저 스크립트와 가져올 파일을 읽고 규정·기존 파일과의 충돌을 확인합니다.
+sh fde-harness/setup.sh /absolute/path/to/allowed-workspace
 ```
 
-## 사용
-작업 폴더에서 한 줄. Codex에게 "이 저장소를 clone하고 setup.sh를 실행해"라고 시켜도 된다.
-```bash
-git clone https://github.com/hugh-ji/fde-harness.git && sh fde-harness/setup.sh
+원하는 공개 버전을 고정하려면 clone 폴더에서 검토한 커밋을 checkout한 뒤 설치합니다. 특정 SHA는 직접 확인한 값을 사용하세요.
+
+설치기는 변경 없는 Git checkout을 요구하고, 대상 경로와 전체 복사 목록을 사전 검사합니다. 기존 파일이나 심볼릭 링크와 충돌하면 복사를 시작하지 않습니다. 공식 AGENTS나 동명 문서가 있으면 삭제해서 통과시키지 말고, 원본 폴더를 참조하거나 공식 지침을 보존하며 필요한 내용만 수동으로 반영합니다. 충돌하지 않는 기존 `.agents` 디렉터리에는 새 Skill만 추가할 수 있습니다.
+
+설치기는 원본 clone·기존 파일·Git index·작성자 설정을 보존하고 git init/add/commit을 실행하지 않습니다. `HARNESS_SOURCE.md`에 출처 URL·SHA·설치 시각·복사 목록을 기록합니다. 이 파일은 작업 환경 내부에 둡니다. 디스크 오류 등 복사 중 실패가 발생하면 부분 설치가 남을 수 있으므로 결과와 파일 상태를 확인하세요.
+
+필요하면 제공 Codex에 추가 규칙을 읽도록 요청하고 적용 여부를 확인합니다. 재시작은 실제 제공 환경의 안내에 따르며 감독·연결 프로세스에는 손대지 않습니다. 특정 폴더명이나 재시작 필요성을 가정하지 않습니다.
+
+## 검증
+
+Python 표준 라이브러리만 사용합니다.
+
+```sh
+python3 -m unittest discover -s tests -v
+sh -n setup.sh
 ```
-setup.sh가 하는 일: AGENTS.md·PROMPTS.md·templates/*.md·.agents/를 작업 폴더로 복사 → clone 폴더 삭제 → .gitignore → git init(상위에 git이 있으면 재사용) → '작업환경 설정' 커밋. 작업 폴더의 README.md, docs/, data/는 건드리지 않는다.
-그 다음 **Codex를 다시 실행**한다. AGENTS.md는 Codex가 시작할 때 읽는다.
+
+시험 중 생성한 산출물·로그·출처 기록을 이 공개 저장소에 push하지 않습니다. 저장소 관리와 규칙 정비는 시험 전 준비 작업이며 응시 중 외부 전송 허용을 뜻하지 않습니다.
