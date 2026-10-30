@@ -42,27 +42,37 @@ class InstallerTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0, result.stdout)
         self.assertEqual(before, self.snapshot(self.ws))
 
-    def test_success_preserves_source_and_records_exact_commit(self):
+    def test_success_removes_source_and_records_exact_commit(self):
         (self.ws / 'README.md').write_text('official instructions')
-        before = self.snapshot(self.source)
+        sha = self.git(self.source, 'rev-parse', 'HEAD').strip()
+        plan = (self.source / 'templates/PLAN.md').read_bytes()
         result = self.install()
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(before, self.snapshot(self.source))
+        self.assertFalse(self.source.exists(), 'clone should be removed after a successful install')
         self.assertEqual((self.ws / 'README.md').read_text(), 'official instructions')
         self.assertFalse((self.ws / '.git').exists())
         text = (self.ws / 'HARNESS_SOURCE.md').read_text()
-        self.assertIn(self.git(self.source, 'rev-parse', 'HEAD').strip(), text)
+        self.assertIn(sha, text)
         self.assertIn('https://github.com/hugh-ji/fde-harness', text)
-        self.assertEqual((self.ws / 'PLAN.md').read_bytes(), (self.source / 'templates/PLAN.md').read_bytes())
+        self.assertIn('removed', text)
+        self.assertEqual((self.ws / 'PLAN.md').read_bytes(), plan)
 
-    def test_short_command_installs_into_clone_parent(self):
+    def test_keep_source_env_preserves_clone(self):
         before = self.snapshot(self.source)
-        result = self.install(no_target=True)
+        self.env['KEEP_SOURCE'] = '1'
+        result = self.install()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(before, self.snapshot(self.source))
+        self.assertIn('KEEP_SOURCE', (self.ws / 'HARNESS_SOURCE.md').read_text())
+
+    def test_short_command_installs_into_clone_parent(self):
+        sha = self.git(self.source, 'rev-parse', 'HEAD').strip()
+        result = self.install(no_target=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(self.source.exists())
         self.assertTrue((self.base / 'AGENTS.md').is_file())
         source_record = (self.base / 'HARNESS_SOURCE.md').read_text()
-        self.assertIn(self.git(self.source, 'rev-parse', 'HEAD').strip(), source_record)
+        self.assertIn(sha, source_record)
         self.assertIn(str(self.base), result.stdout)
 
     def test_existing_official_instructions_and_documents_are_preserved(self):
