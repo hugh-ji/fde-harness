@@ -11,6 +11,7 @@ templates/AGREEMENT.md         실무자 합의문 양식
 templates/PLAN.md              마일스톤 계획 양식
 templates/DECISIONS.md         결정 로그 양식
 templates/HANDOFF.md           인수인계 양식
+templates/SCREEN_CHECK.md      화면 확인 기록 양식(시나리오 3개)
 templates/CHECKLIST.md         180분 타임라인·판단 기준
 .agents/skills/fde-interview   실무자 인터뷰 스킬
 .agents/skills/verify-before-done  완료 전 검증 스킬
