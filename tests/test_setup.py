@@ -98,6 +98,15 @@ class InstallerTests(unittest.TestCase):
         self.assertIn('Do NOT change permissions', result.stderr)
         self.assertFalse((self.ws / 'AGENTS.md').exists())
 
+    def test_non_ascii_source_path_installs(self):
+        src2 = self.base / '한글 경로 테스트' / 'fde-harness'
+        shutil.copytree(self.source, src2)
+        ws2 = self.base / '한글 경로 테스트' / 'users'
+        ws2.mkdir()
+        result = subprocess.run(['sh', str(src2 / 'setup.sh'), str(ws2)], capture_output=True, text=True, env=self.env)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((ws2 / 'AGENTS.md').is_file())
+
     def test_dangling_destination_symlink_is_preserved(self):
         (self.ws / 'PLAN.md').symlink_to(self.base / 'missing')
         self.assert_unchanged_failure()

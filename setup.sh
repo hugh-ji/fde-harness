@@ -19,8 +19,9 @@ main() {
     case "$WS/" in "$KIT/"*) fail "Target must be outside the source checkout." ;; esac
     [ -w "$WS" ] || fail "Target is not writable: $WS. Do NOT change permissions. Clone again inside the writable submission folder (for example its users/ subfolder) and run setup.sh from there."
     command -v git >/dev/null 2>&1 || fail "Git is required to record the source commit."
-    SOURCE_ROOT=$(git -C "$KIT" rev-parse --show-toplevel) || fail "Use a Git clone of the harness."
-    [ "$SOURCE_ROOT" = "$KIT" ] || fail "The script must be at the harness checkout root."
+    git -C "$KIT" rev-parse --show-toplevel >/dev/null 2>&1 || fail "Use a Git clone of the harness."
+    # --show-prefix is empty only at the checkout root; avoids path-string comparison (Unicode normalization on macOS).
+    [ -z "$(git -C "$KIT" rev-parse --show-prefix)" ] || fail "The script must be at the harness checkout root."
     [ -z "$(git -C "$KIT" status --porcelain --untracked-files=all)" ] || fail "Source checkout has changes. Use a reviewed, committed version."
     SHA=$(git -C "$KIT" rev-parse --verify HEAD)
 
