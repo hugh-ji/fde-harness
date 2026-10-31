@@ -83,33 +83,23 @@ class InstallerTests(unittest.TestCase):
                 self.assert_unchanged_failure()
                 p.unlink()
 
-    def test_last_skill_collision_does_not_partially_copy(self):
-        p = self.ws / '.agents/skills/handoff/SKILL.md'
-        p.parent.mkdir(parents=True)
-        p.write_text('official skill')
+    def test_last_file_collision_does_not_partially_copy(self):
+        (self.ws / 'CHECKLIST.md').write_text('official checklist')
         self.assert_unchanged_failure()
         self.assertFalse((self.ws / 'AGENTS.md').exists())
 
-    def test_existing_unrelated_skill_is_preserved(self):
-        p = self.ws / '.agents/skills/official/SKILL.md'
-        p.parent.mkdir(parents=True)
-        p.write_text('official skill')
-        self.assertEqual(self.install().returncode, 0)
-        self.assertEqual(p.read_text(), 'official skill')
-
-    def test_symlink_directory_cannot_redirect_writes(self):
-        outside = self.base / 'outside'
-        outside.mkdir()
-        (self.ws / '.agents').symlink_to(outside, target_is_directory=True)
-        self.assert_unchanged_failure()
-        self.assertEqual(list(outside.iterdir()), [])
+    def test_read_only_target_tells_agent_to_relocate_not_chmod(self):
+        self.ws.chmod(0o555)
+        try:
+            result = self.install()
+        finally:
+            self.ws.chmod(0o755)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('Do NOT change permissions', result.stderr)
+        self.assertFalse((self.ws / 'AGENTS.md').exists())
 
     def test_dangling_destination_symlink_is_preserved(self):
         (self.ws / 'PLAN.md').symlink_to(self.base / 'missing')
-        self.assert_unchanged_failure()
-
-    def test_directory_path_occupied_by_file(self):
-        (self.ws / '.agents').write_text('keep')
         self.assert_unchanged_failure()
 
     def test_existing_parent_git_index_head_and_identity_are_preserved(self):

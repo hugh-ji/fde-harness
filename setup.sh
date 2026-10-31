@@ -17,7 +17,7 @@ main() {
     [ ! -L "$TARGET" ] || fail "Target must not be a symbolic link."
     WS=$(CDPATH= cd -P -- "$TARGET" && pwd)
     case "$WS/" in "$KIT/"*) fail "Target must be outside the source checkout." ;; esac
-    [ -w "$WS" ] || fail "Target is not writable: $WS"
+    [ -w "$WS" ] || fail "Target is not writable: $WS. Do NOT change permissions. Clone again inside the writable submission folder (for example its users/ subfolder) and run setup.sh from there."
     command -v git >/dev/null 2>&1 || fail "Git is required to record the source commit."
     SOURCE_ROOT=$(git -C "$KIT" rev-parse --show-toplevel) || fail "Use a Git clone of the harness."
     [ "$SOURCE_ROOT" = "$KIT" ] || fail "The script must be at the harness checkout root."
@@ -32,18 +32,12 @@ main() {
     templates/DECISIONS.md
     templates/HANDOFF.md
     templates/SCREEN_CHECK.md
-    templates/CHECKLIST.md
-    .agents/skills/fde-interview/SKILL.md
-    .agents/skills/verify-before-done/SKILL.md
-    .agents/skills/handoff/SKILL.md'
-    DIRS='.agents
-    .agents/skills
-    .agents/skills/fde-interview
-    .agents/skills/verify-before-done
-    .agents/skills/handoff'
+    templates/CHECKLIST.md'
+    DIRS=''
 
     # All anticipated conflicts are checked before the first write.
     for rel in $DIRS; do
+        [ -n "$rel" ] || continue
         [ ! -L "$KIT/$rel" ] || fail "Source directory must not be a symbolic link: $rel"
         if [ -L "$WS/$rel" ] || { [ -e "$WS/$rel" ] && [ ! -d "$WS/$rel" ]; }; then
             fail "Destination directory conflict; nothing copied: $rel"
@@ -61,7 +55,7 @@ main() {
         fail "Existing HARNESS_SOURCE.md preserved; nothing copied."
     fi
 
-    for rel in $DIRS; do mkdir -p "$WS/$rel"; done
+    for rel in $DIRS; do [ -n "$rel" ] && mkdir -p "$WS/$rel"; done
     for src in $FILES; do cp "$KIT/$src" "$WS/${src#templates/}"; done
     {
         printf '# Harness source\n\n'
