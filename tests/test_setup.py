@@ -84,7 +84,7 @@ class InstallerTests(unittest.TestCase):
                 p.unlink()
 
     def test_last_file_collision_does_not_partially_copy(self):
-        (self.ws / 'CHECKLIST.md').write_text('official checklist')
+        (self.ws / 'AI_COLLABORATION.md').write_text('official answers')
         self.assert_unchanged_failure()
         self.assertFalse((self.ws / 'AGENTS.md').exists())
 

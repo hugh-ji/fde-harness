@@ -28,12 +28,10 @@ main() {
     # Explicit allowlist: no glob copies of future files or arbitrary source data.
     FILES='AGENTS.md
     PROMPTS.md
-    templates/AGREEMENT.md
     templates/PLAN.md
     templates/DECISIONS.md
     templates/HANDOFF.md
-    templates/SCREEN_CHECK.md
-    templates/CHECKLIST.md'
+    templates/AI_COLLABORATION.md'
     DIRS=''
 
     # All anticipated conflicts are checked before the first write.
