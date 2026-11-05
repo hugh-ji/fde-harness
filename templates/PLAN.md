@@ -21,7 +21,7 @@
 
 - python3 경로·버전·모듈:
 - 실행 명령:
-- 테스트 명령: `python3 -m unittest discover -s tests -t .`
+- 테스트 명령 (프로젝트 기존 명령, 없으면 런타임 표준 도구):
 
 ## 마일스톤
 

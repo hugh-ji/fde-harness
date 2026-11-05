@@ -18,9 +18,11 @@
 
 ## 구성
 
-- `AGENTS.md`: 규정·역할·데이터·검증·기록·응답 규칙 (한 장)
-- `PROMPTS.md`: 9단계 진행 순서와 고정 프롬프트 (모델·터미널·분량 운영 원칙 포함)
-- `templates/`: PLAN·DECISIONS·HANDOFF·AI_COLLABORATION 양식. README가 요구하는 제출물에 맞춘 최소 구성
+- `AGENTS.md`: 범용 작업 규칙 한 장 (역할·발견·데이터·검증·기록·응답). 과제·스택을 가정하지 않는다
+- `profiles/cofa.md`: 시험 환경 정책 (허용 모델·push 금지·미리보기 iframe·제출 문서). 설치 때 AGENTS.md 끝에 붙는다 (`PROFILE=cofa`, 기본값)
+- `profiles/cofa/AI_COLLABORATION.md`: 시험이 요구하는 세 물음 양식
+- `PROMPTS.md`: 반복 가능한 8개 활동과 고정 프롬프트, 부록에 180분 예시 일정
+- `templates/`: PLAN·DECISIONS·HANDOFF·COLLABORATION 양식. 규모에 맞춰 골라 쓴다
 - `setup.sh`: 기존 파일을 덮어쓰지 않는 설치. 인수가 없으면 clone 폴더의 부모를 대상으로 사용. 설치 뒤 clone 폴더 제거(`KEEP_SOURCE=1`로 유지 가능)
 - `tests/test_setup.py`: 설치 보존·충돌·출처 기록 검사
 
@@ -36,7 +38,8 @@ Codex가 현재 과제 작업 폴더에서 저장소를 clone한 뒤 인수 없�
 
 ```sh
 git clone https://github.com/hugh-ji/fde-harness.git
-sh fde-harness/setup.sh
+sh fde-harness/setup.sh              # PROFILE=cofa 기본: 시험 정책이 AGENTS.md에 붙는다
+PROFILE=none sh fde-harness/setup.sh # 일반 프로젝트: 범용 규칙만
 ```
 
 clone 폴더의 부모가 실제 작업 폴더가 아닌 환경에서는 대상 경로를 명시할 수도 있습니다.

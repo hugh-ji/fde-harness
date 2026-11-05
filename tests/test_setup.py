@@ -175,6 +175,31 @@ class InstallerTests(unittest.TestCase):
         self.git(self.source, '-c', 'user.name=Test Fixture', '-c', 'user.email=test@example.invalid', 'commit', '-qm', 'link fixture')
         self.assert_unchanged_failure()
 
+    def test_default_profile_appends_cofa_policy_and_exam_template(self):
+        result = self.install()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        agents = (self.ws / 'AGENTS.md').read_text()
+        self.assertIn('## 환경 정책 (cofa 시험 프로필)', agents)
+        self.assertTrue(agents.startswith('# AGENTS.md'))
+        self.assertTrue((self.ws / 'AI_COLLABORATION.md').is_file())
+        self.assertFalse((self.ws / 'COLLABORATION.md').exists())
+        self.assertIn('Profile: cofa', (self.ws / 'HARNESS_SOURCE.md').read_text())
+
+    def test_profile_none_installs_generic_kit_only(self):
+        self.env['PROFILE'] = 'none'
+        result = self.install()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        agents = (self.ws / 'AGENTS.md').read_text()
+        self.assertNotIn('## 환경 정책', agents)
+        self.assertTrue((self.ws / 'COLLABORATION.md').is_file())
+        self.assertFalse((self.ws / 'AI_COLLABORATION.md').exists())
+
+    def test_unknown_profile_fails_before_writes(self):
+        self.env['PROFILE'] = 'nope'
+        self.assert_unchanged_failure()
+        self.env['PROFILE'] = '../x'
+        self.assert_unchanged_failure()
+
 
 if __name__ == '__main__':
     unittest.main()

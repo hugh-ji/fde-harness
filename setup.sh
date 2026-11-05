@@ -2,6 +2,8 @@
 # Read this script before use. With no argument, install into the clone's parent.
 # An explicit existing workspace path remains supported as the first argument.
 # No overwrite, git staging, commits, or network operations.
+# PROFILE selects an environment policy appended to the installed AGENTS.md
+# (default: cofa; PROFILE=none installs the generic kit only).
 # After a successful install the clone itself is removed (set KEEP_SOURCE=1 to keep it);
 # the source URL and commit stay recorded in HARNESS_SOURCE.md.
 main() {
@@ -26,13 +28,22 @@ main() {
     SHA=$(git -C "$KIT" rev-parse --verify HEAD)
 
     # Explicit allowlist: no glob copies of future files or arbitrary source data.
-    FILES='AGENTS.md
+    PROFILE=${PROFILE:-cofa}
+    case "$PROFILE" in
+        none) PROFILE_POLICY=''; PROFILE_FILES='templates/COLLABORATION.md' ;;
+        */*|.*|'') fail "Invalid PROFILE: $PROFILE" ;;
+        *) PROFILE_POLICY="profiles/$PROFILE.md"
+           [ -f "$KIT/$PROFILE_POLICY" ] && [ ! -L "$KIT/$PROFILE_POLICY" ] || fail "Unknown PROFILE: $PROFILE (missing $PROFILE_POLICY)"
+           PROFILE_FILES=$(cd "$KIT" && find "profiles/$PROFILE" -maxdepth 1 -type f -name '*.md' 2>/dev/null | LC_ALL=C sort) ;;
+    esac
+    FILES="AGENTS.md
     PROMPTS.md
     templates/PLAN.md
     templates/DECISIONS.md
     templates/HANDOFF.md
-    templates/AI_COLLABORATION.md'
+    $PROFILE_FILES"
     DIRS=''
+    dst_of() { case "$1" in templates/*) printf '%s' "${1#templates/}" ;; profiles/*/*) printf '%s' "${1#profiles/*/}" ;; *) printf '%s' "$1" ;; esac; }
 
     # All anticipated conflicts are checked before the first write.
     for rel in $DIRS; do
@@ -45,7 +56,7 @@ main() {
     [ ! -L "$KIT/templates" ] || fail "Source templates directory must not be a symbolic link."
     for src in $FILES; do
         [ -f "$KIT/$src" ] && [ ! -L "$KIT/$src" ] || fail "Missing or unsafe source file: $src"
-        dst=${src#templates/}
+        dst=$(dst_of "$src")
         if [ -e "$WS/$dst" ] || [ -L "$WS/$dst" ]; then
             fail "Existing destination preserved; nothing copied: $dst. Keep official files and use the source as reference."
         fi
@@ -55,7 +66,8 @@ main() {
     fi
 
     for rel in $DIRS; do [ -n "$rel" ] && mkdir -p "$WS/$rel"; done
-    for src in $FILES; do cp "$KIT/$src" "$WS/${src#templates/}"; done
+    for src in $FILES; do cp "$KIT/$src" "$WS/$(dst_of "$src")"; done
+    if [ -n "$PROFILE_POLICY" ]; then printf '\n' >> "$WS/AGENTS.md"; cat "$KIT/$PROFILE_POLICY" >> "$WS/AGENTS.md"; fi
     {
         printf '# Harness source\n\n'
         printf -- '- Repository: https://github.com/hugh-ji/fde-harness\n'
@@ -68,7 +80,9 @@ main() {
             printf -- '- Source clone removed after install. Existing files and Git index were not changed.\n'
         fi
         printf '\n## Imported paths\n\n'
-        for src in $FILES; do printf -- '- `%s` -> `%s`\n' "$src" "${src#templates/}"; done
+        printf -- '- Profile: %s\n' "$PROFILE"
+        for src in $FILES; do printf -- '- `%s` -> `%s`\n' "$src" "$(dst_of "$src")"; done
+        [ -z "$PROFILE_POLICY" ] || printf -- '- `%s` appended to `AGENTS.md`\n' "$PROFILE_POLICY"
     } > "$WS/HARNESS_SOURCE.md"
     printf 'Installed reviewed harness %s into %s\n' "$SHA" "$WS"
     if [ "${KEEP_SOURCE:-0}" = 1 ]; then
