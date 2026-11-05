@@ -84,7 +84,7 @@ class InstallerTests(unittest.TestCase):
                 p.unlink()
 
     def test_last_file_collision_does_not_partially_copy(self):
-        (self.ws / 'AI_COLLABORATION.md').write_text('official answers')
+        (self.ws / 'HANDOFF.md').write_text('official handoff')
         self.assert_unchanged_failure()
         self.assertFalse((self.ws / 'AGENTS.md').exists())
 
@@ -181,8 +181,8 @@ class InstallerTests(unittest.TestCase):
         agents = (self.ws / 'AGENTS.md').read_text()
         self.assertIn('## 환경 정책 (cofa 시험 프로필)', agents)
         self.assertTrue(agents.startswith('# AGENTS.md'))
-        self.assertTrue((self.ws / 'AI_COLLABORATION.md').is_file())
-        self.assertFalse((self.ws / 'COLLABORATION.md').exists())
+        self.assertFalse((self.ws / 'COLLABORATION.md').exists(), 'exam profile installs no collaboration template; the exam README names its own')
+        self.assertIn('시험장 안에서 제공되는 안내 파일', agents)
         self.assertIn('Profile: cofa', (self.ws / 'HARNESS_SOURCE.md').read_text())
 
     def test_profile_none_installs_generic_kit_only(self):
@@ -192,7 +192,6 @@ class InstallerTests(unittest.TestCase):
         agents = (self.ws / 'AGENTS.md').read_text()
         self.assertNotIn('## 환경 정책', agents)
         self.assertTrue((self.ws / 'COLLABORATION.md').is_file())
-        self.assertFalse((self.ws / 'AI_COLLABORATION.md').exists())
 
     def test_unknown_profile_fails_before_writes(self):
         self.env['PROFILE'] = 'nope'

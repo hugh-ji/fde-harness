@@ -19,8 +19,7 @@
 ## 구성
 
 - `AGENTS.md`: 범용 작업 규칙 한 장 (역할·발견·데이터·검증·기록·응답). 과제·스택을 가정하지 않는다
-- `profiles/cofa.md`: 시험 환경 정책 (허용 모델·push 금지·미리보기 iframe·제출 문서). 설치 때 AGENTS.md 끝에 붙는다 (`PROFILE=cofa`, 기본값)
-- `profiles/cofa/AI_COLLABORATION.md`: 시험이 요구하는 세 물음 양식
+- `profiles/cofa.md`: 시험 환경 프로필. 시험장 안내 파일을 우선 읽게 하는 최소 규정, 과제마다 확인할 것, 사전 체험으로 확인한 플랫폼 특성, 개인 운영 원칙. 설치 때 AGENTS.md 끝에 붙는다 (`PROFILE=cofa`, 기본값). 제출물·협업 문서 양식은 시험장 README에서 확인해 만든다
 - `PROMPTS.md`: 반복 가능한 8개 활동과 고정 프롬프트, 부록에 180분 예시 일정
 - `templates/`: PLAN·DECISIONS·HANDOFF·COLLABORATION 양식. 규모에 맞춰 골라 쓴다
 - `setup.sh`: 기존 파일을 덮어쓰지 않는 설치. 인수가 없으면 clone 폴더의 부모를 대상으로 사용. 설치 뒤 clone 폴더 제거(`KEEP_SOURCE=1`로 유지 가능)

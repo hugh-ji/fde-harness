@@ -34,7 +34,7 @@ main() {
         */*|.*|'') fail "Invalid PROFILE: $PROFILE" ;;
         *) PROFILE_POLICY="profiles/$PROFILE.md"
            [ -f "$KIT/$PROFILE_POLICY" ] && [ ! -L "$KIT/$PROFILE_POLICY" ] || fail "Unknown PROFILE: $PROFILE (missing $PROFILE_POLICY)"
-           PROFILE_FILES=$(cd "$KIT" && find "profiles/$PROFILE" -maxdepth 1 -type f -name '*.md' 2>/dev/null | LC_ALL=C sort) ;;
+           PROFILE_FILES=$( [ -d "$KIT/profiles/$PROFILE" ] && cd "$KIT" && find "profiles/$PROFILE" -maxdepth 1 -type f -name '*.md' | LC_ALL=C sort || true ) ;;
     esac
     FILES="AGENTS.md
     PROMPTS.md
